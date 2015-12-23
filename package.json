@@ -1,6 +1,6 @@
 {
   "name": "henning",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Server-level thurston validation for hapi",
   "main": "lib/index.js",
   "scripts": {
