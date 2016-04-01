@@ -7,7 +7,6 @@ Server-level [thurston](https://github.com/ruiquelhas/thurston) validation for [
 - [Installation](#installation)
 - [Usage](#usage)
   - [Example](#example)
-
 - [Supported File Types](#supported-file-types)
 
 ## Installation
