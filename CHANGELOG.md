@@ -1,5 +1,12 @@
 # Changelog
 
+## [v2.0.2](https://github.com/ruiquelhas/henning/tree/v2.0.2) (2016-04-03)
+[Full Changelog](https://github.com/ruiquelhas/henning/compare/v2.0.1...v2.0.2)
+
+**Merged pull requests:**
+
+- Update documentation [\#5](https://github.com/ruiquelhas/henning/pull/5) ([ruiquelhas](https://github.com/ruiquelhas))
+
 ## [v2.0.1](https://github.com/ruiquelhas/henning/tree/v2.0.1) (2016-04-01)
 [Full Changelog](https://github.com/ruiquelhas/henning/compare/v2.0.0...v2.0.1)
 
