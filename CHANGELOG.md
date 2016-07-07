@@ -1,6 +1,13 @@
 # Changelog
 
-## [v2.0.2](https://github.com/ruiquelhas/henning/tree/v2.0.2) (2016-04-03)
+## [v2.0.3](https://github.com/ruiquelhas/henning/tree/v2.0.3) (2016-07-07)
+[Full Changelog](https://github.com/ruiquelhas/henning/compare/v2.0.2...v2.0.3)
+
+**Merged pull requests:**
+
+- Simplify test suite [\#6](https://github.com/ruiquelhas/henning/pull/6) ([ruiquelhas](https://github.com/ruiquelhas))
+
+## [v2.0.2](https://github.com/ruiquelhas/henning/tree/v2.0.2) (2016-04-02)
 [Full Changelog](https://github.com/ruiquelhas/henning/compare/v2.0.1...v2.0.2)
 
 **Merged pull requests:**
