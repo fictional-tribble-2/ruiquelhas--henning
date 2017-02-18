@@ -1,5 +1,13 @@
 # Changelog
 
+## [v2.0.5](https://github.com/ruiquelhas/henning/tree/v2.0.5) (2017-02-18)
+[Full Changelog](https://github.com/ruiquelhas/henning/compare/v2.0.4...v2.0.5)
+
+**Fixed bugs:**
+
+- Flaky tests run without file fixtures available [\#8](https://github.com/ruiquelhas/henning/issues/8)
+- Fix file fixtures availability [\#9](https://github.com/ruiquelhas/henning/pull/9) ([ruiquelhas](https://github.com/ruiquelhas))
+
 ## [v2.0.4](https://github.com/ruiquelhas/henning/tree/v2.0.4) (2016-11-01)
 [Full Changelog](https://github.com/ruiquelhas/henning/compare/v2.0.3...v2.0.4)
 
