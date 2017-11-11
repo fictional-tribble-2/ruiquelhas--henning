@@ -9,7 +9,7 @@ const Form = require('multi-part');
 const Hapi = require('hapi');
 const Lab = require('lab');
 
-const Henning = require('../lib/');
+const Henning = require('../');
 
 const lab = exports.lab = Lab.script();
 
@@ -19,47 +19,61 @@ lab.experiment('henning', () => {
     let png;
     let gif;
 
-    lab.before((done) => {
+    lab.before(async () => {
 
         server = new Hapi.Server();
-        server.connection();
-
-        const setup = {
-            register: Henning,
+        server.route({
             options: {
-                whitelist: ['image/png']
-            }
-        };
-
-        const route = {
-            config: {
-                handler: (request, reply) => reply(),
+                handler: () => null,
                 payload: {
                     output: 'stream',
                     parse: true
+                },
+                validate: {
+                    failAction: (request, h, err) => {
+
+                        throw err;
+                    }
                 }
             },
             method: '*',
             path: '/'
-        };
+        });
 
-        server.route(route);
-        server.register(setup, done);
+        await server.register({
+            plugin: Henning,
+            options: {
+                whitelist: ['image/png']
+            }
+        });
     });
 
-    lab.beforeEach((done) => {
+    lab.beforeEach(() => {
         // Create fake png file
         png = Path.join(Os.tmpdir(), 'foo.png');
-        Fs.createWriteStream(png).on('error', done).end(Buffer.from('89504e47', 'hex'), done);
+
+        return new Promise((resolve, reject) => {
+
+            return Fs.createWriteStream(png)
+                .on('error', reject)
+                .end(Buffer.from('89504e470d0a1a0a', 'hex'), resolve);
+        });
     });
 
-    lab.beforeEach((done) => {
+    lab.beforeEach(() => {
         // Create fake gif file
+        const magicNumber = ['474946383761', '474946383961'][Math.floor(Math.random())];
         gif = Path.join(Os.tmpdir(), 'foo.gif');
-        Fs.createWriteStream(gif).on('error', done).end(Buffer.from('47494638', 'hex'), done);
+
+        return new Promise((resolve, reject) => {
+
+            return Fs.createWriteStream(gif)
+                .on('error', reject)
+                .end(Buffer.from(magicNumber, 'hex'), resolve);
+        });
     });
 
-    lab.test('should return error if some file in the payload is not allowed', (done) => {
+    lab.test('should return error if some file in the payload is not allowed', async () => {
 
         const form = new Form();
         form.append('file1', Fs.createReadStream(gif));
@@ -67,31 +81,37 @@ lab.experiment('henning', () => {
         form.append('file3', Fs.createReadStream(gif));
         form.append('foo', 'bar');
 
-        server.inject({ headers: form.getHeaders(), method: 'POST', payload: form.stream(), url: '/' }, (response) => {
-
-            Code.expect(response.statusCode).to.equal(400);
-            Code.expect(response.headers['content-validation']).to.equal('failure');
-            Code.expect(response.result).to.include(['message', 'validation']);
-            Code.expect(response.result.message).to.equal('child \"file1\" fails because [\"file1\" type is not allowed]');
-            Code.expect(response.result.validation).to.include(['source', 'keys']);
-            Code.expect(response.result.validation.source).to.equal('payload');
-            Code.expect(response.result.validation.keys).to.include('file1');
-            done();
+        const { headers, result, statusCode } = await server.inject({
+            headers: form.getHeaders(),
+            method: 'POST',
+            payload: form.stream(),
+            url: '/'
         });
+
+        Code.expect(statusCode).to.equal(400);
+        Code.expect(headers['content-validation']).to.equal('failure');
+        Code.expect(result).to.include(['message', 'validation']);
+        Code.expect(result.message).to.equal('child \"file1\" fails because [\"file1\" type is not allowed]');
+        Code.expect(result.validation).to.include(['source', 'keys']);
+        Code.expect(result.validation.source).to.equal('payload');
+        Code.expect(result.validation.keys).to.include('file1');
     });
 
-    lab.test('should return control to the server if all files the payload are allowed', (done) => {
+    lab.test('should return control to the server if all files in the payload are allowed', async () => {
 
         const form = new Form();
         form.append('file1', Fs.createReadStream(png));
         form.append('file2', Fs.createReadStream(png));
         form.append('foo', 'bar');
 
-        server.inject({ headers: form.getHeaders(), method: 'POST', payload: form.stream(), url: '/' }, (response) => {
-
-            Code.expect(response.statusCode).to.equal(200);
-            Code.expect(response.headers['content-validation']).to.equal('success');
-            done();
+        const { headers, statusCode } = await server.inject({
+            headers: form.getHeaders(),
+            method: 'POST',
+            payload: form.stream(),
+            url: '/'
         });
+
+        Code.expect(statusCode).to.equal(200);
+        Code.expect(headers['content-validation']).to.equal('success');
     });
 });
