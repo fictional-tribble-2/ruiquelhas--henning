@@ -27,23 +27,11 @@ If the validation fails, a [joi](https://github.com/hapijs/joi)-like `400 Bad Re
 const Hapi = require('hapi');
 const Henning = require('henning');
 
-const server = new Hapi.Server();
-server.connection({
-    // go nuts
-});
-
-const plugin = {
-    register: Henning,
-    options: {
-        // Allow png files only
-        whitelist: ['image/png']
-    }
-};
-
-server.register(plugin, (err) => {
+try {
+    const server = new Hapi.Server();
 
     server.route({
-        config: {
+        options: {
             payload: {
                 output: 'stream',
                 parse: true
@@ -52,14 +40,23 @@ server.register(plugin, (err) => {
         }
     });
 
-    server.start(() => {
-        // go nuts
+    await server.register({
+        register: Henning,
+        options: {
+            // Allow png files only
+            whitelist: ['image/png']
+        }
     });
-});
+
+    await server.start();
+}
+catch (err) {
+    throw err;
+}
 ```
 
 ## Supported File Types
-The same as [file-type](https://github.com/sindresorhus/file-type#supported-file-types).
+The same as [file-type](https://github.com/sindresorhus/file-type/tree/v7.0.0#supported-file-types).
 
 [coveralls-img]: https://coveralls.io/repos/ruiquelhas/henning/badge.svg
 [coveralls-url]: https://coveralls.io/github/ruiquelhas/henning
