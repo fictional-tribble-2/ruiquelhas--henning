@@ -1,4 +1,7 @@
 # henning
+
+[![GuardRails Staging badge](https://badges.staging.guardrails.io/fictional-tribble/ruiquelhas--henning.svg)](https://www.staging.guardrails.io)
+
 Server-level [thurston](https://github.com/ruiquelhas/thurston) validation for [hapi](https://github.com/hapijs/hapi).
 
 [![NPM Version][version-img]][version-url] [![Build Status][travis-img]][travis-url] [![Coverage Status][coveralls-img]][coveralls-url] [![Dependencies][david-img]][david-url] [![Dev Dependencies][david-dev-img]][david-dev-url]
