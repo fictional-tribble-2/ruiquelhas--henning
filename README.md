@@ -1,6 +1,6 @@
 # henning
 
-[![GuardRails Staging badge](https://badges.staging.guardrails.io/fictional-tribble/ruiquelhas--henning.svg)](https://www.staging.guardrails.io)
+[![GuardRails Staging badge](https://badges.staging.guardrails.io/fictional-tribble/ruiquelhas--henning.svg)](https://www.staging.guardrails.io) [![GuardRails badge](https://badges.production.guardrails.io/fictional-tribble/ruiquelhas--henning.svg)](https://www.guardrails.io)
 
 Server-level [thurston](https://github.com/ruiquelhas/thurston) validation for [hapi](https://github.com/hapijs/hapi).
 
